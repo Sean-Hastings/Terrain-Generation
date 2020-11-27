@@ -4,6 +4,7 @@ public class Generator : MonoBehaviour {
 
     public int size;
     public int num_sampling_points;
+    public double edge_filter_percent;
     public int time_scale;
     public int old_time_scale;
 
@@ -23,10 +24,12 @@ public class Generator : MonoBehaviour {
         if (time_scale != old_time_scale)
         {
             old_time_scale = time_scale;
-            
+
             tectonic_uplift_map = new TectonicUplift(size, 2);
-            graph = new ErosionGraph(tectonic_uplift_map, num_sampling_points, size);
+            graph = new ErosionGraph(tectonic_uplift_map, num_sampling_points, size, edge_filter_percent);
         }
+
+        //graph.Erode();
     }
 
     private void OnDrawGizmos()
@@ -34,5 +37,5 @@ public class Generator : MonoBehaviour {
         // tectonic_uplift_map.Draw(GetComponent<Transform>());
          graph.Draw();
     }
-    
+
 }

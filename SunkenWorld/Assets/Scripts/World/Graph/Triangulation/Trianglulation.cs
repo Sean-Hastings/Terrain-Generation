@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.Profiling;
 using System;
 
 public class Trianglulation
@@ -13,37 +12,39 @@ public class Trianglulation
         this.nodes.AddRange(nodes);
     }
 
-    public void Triangulate(float x_low_bound, float x_high_bound, float y_low_bound, float y_high_bound)
+    public List<GraphEdge> Triangulate(float x_low_bound, float x_high_bound, float y_low_bound, float y_high_bound)
     {
         tris = InitTris(x_low_bound, x_high_bound, y_low_bound, y_high_bound);
 
-        Profiler.BeginSample("Adding Nodes");
         GraphNode[] dummy_verts = tris.GetVertices();
         foreach (GraphNode node in nodes)
         {
             AddNode(node, dummy_verts);
         }
-        Profiler.EndSample();
 
-        Profiler.BeginSample("List Nodes");
         List<Triangle> tri_list = tris.AsList();
-        Profiler.EndSample();
 
-        Profiler.BeginSample("Finalize Nodes");
+        List<GraphEdge> edges = new List<GraphEdge>();
         foreach (Triangle tri in tri_list)
         {
             if (!TriangleContains(tri, tris.GetVertices()))
             {
                 GraphNode[] vertices = tri.GetVertices();
-                vertices[0].AddEdge(vertices[1]);
-                vertices[0].AddEdge(vertices[2]);
-                vertices[1].AddEdge(vertices[2]);
-                vertices[1].AddEdge(vertices[0]);
-                vertices[2].AddEdge(vertices[0]);
-                vertices[2].AddEdge(vertices[1]);
+
+                GraphEdge edge = vertices[0].AddEdgeFromNode(vertices[1]);
+                edges.Add(edge);
+                vertices[1].AddEdge(edge);
+
+                edge = vertices[0].AddEdgeFromNode(vertices[2]);
+                edges.Add(edge);
+                vertices[2].AddEdge(edge);
+
+                edge = vertices[1].AddEdgeFromNode(vertices[2]);
+                edges.Add(edge);
+                vertices[2].AddEdge(edge);
             }
         }
-        Profiler.EndSample();
+        return edges;
     }
 
     protected bool TriangleContains(Triangle tri, GraphNode[] nodes)
@@ -116,7 +117,7 @@ public class Trianglulation
     protected void EnsureEdge(TriangleTree triangle, GraphNode node)
     {
         TriangleTree adjacent = GetContainingTriangle(triangle.GetAdjacentDummy(node));
-        
+
         if (adjacent != null && adjacent.IsLeaf() && adjacent.IsInCircle(node))
         {
             List<TriangleTree> new_tris = FlipEdge(triangle, adjacent);

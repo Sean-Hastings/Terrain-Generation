@@ -3,37 +3,23 @@
 public class TectonicUplift
 {
     private int size;
-    private float[,] map;
+    private float scale;
+    private FastNoise fn;
 
     public TectonicUplift(int size, float scale)
     {
         this.size = size;
-        map = GenerateRandomMap(scale);
+        this.scale = scale;
+        fn = new FastNoise();
     }
 
-    public float get(int row, int col)
+    public float get(float x, float y)
     {
-        return map[row, col];
+        return fn.GetSimplexFractal(x / scale, y / scale);
     }
 
-    public float[,] GenerateRandomMap(float scale)
-    {
-        float[,] map = new float[size, size];
-
-        FastNoise fn = new FastNoise();
-        
-        for (int r = 0; r < size; r++)
-        {
-            for (int c = 0; c < size; c++)
-            {
-                map[r, c] = fn.GetSimplexFractal(r / scale, c / scale);
-            }
-        }
-
-        return map;
-    }
     /*
-    
+
     public void Draw(Transform transform)
     {
         Gizmos.color = new Color(1, 0, 0, 0.5F);

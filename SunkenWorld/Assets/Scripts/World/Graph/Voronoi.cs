@@ -6,10 +6,10 @@ public class Voronoi : MonoBehaviour {
 
     public ComputeShader voronoi_shader;
 
-	void Start ()
+  	void Start ()
     {
         RunShader();
-	}
+  	}
 
     // http://www.emersonshaffer.com/blog/2016/5/11/unity3d-compute-shader-introduction-tutorial
     protected void RunShader()
@@ -23,9 +23,9 @@ public class Voronoi : MonoBehaviour {
         voronoi_shader.SetTexture(kernel_index, "Result", tex);
         voronoi_shader.Dispatch(kernel_index, 512 / 8, 512 / 8, 1);
     }
-	
-	void Update ()
+
+  	void Update ()
     {
-		
-	}
+
+  	}
 }
