@@ -4,14 +4,11 @@ Fluvial Erosion." The basic idea is to iterate the effects of tectonic uplift an
 
 ### So far I have implemented the following parts:
 
-* Uplift map generation, currently based on perlin noise (or other 2D stable noise, as of writing this I do not have the code open...)
-* Random graph initialization for waterflow simulation
-    * Delaunay triangulation of said graph
-* Stream, lake, pass/arc construction
+* The core paper in its entirety (possibly speed inefficient, no multithreading or anything)
 
 ### To be implemented
 
-* drainage and erosion over graph
+* Decisions on what to do for next steps
 
 ### Notes and things I'm keeping in mind
 
