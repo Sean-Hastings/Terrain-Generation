@@ -306,10 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae9f5792ed06bf41a3835f3f08116e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 100
-  num_sampling_points: 300
+  size: 50
+  num_sampling_points: 10000
   edge_filter_percent: 0
-  time_scale: 1
+  time_scale: 0
   old_time_scale: 0
 --- !u!4 &335263597
 Transform:

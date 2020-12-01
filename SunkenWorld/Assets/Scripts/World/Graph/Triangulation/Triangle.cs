@@ -11,6 +11,13 @@ public class Triangle
         vertices = new GraphNode[] {a, b, c};
     }
 
+    public float Area()
+    {
+        return Math.Abs(vertices[0].X * (vertices[1].Y - vertices[2].Y) +
+               vertices[1].X * (vertices[2].Y - vertices[0].Y) +
+               vertices[2].X * (vertices[0].Y - vertices[1].Y)) / 2;
+    }
+
     // Determinant unwrapped:
     // Ax, Ay, 1
     // Bx, By, 1

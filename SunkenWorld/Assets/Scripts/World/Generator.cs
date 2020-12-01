@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class Generator : MonoBehaviour {
 
@@ -16,20 +17,16 @@ public class Generator : MonoBehaviour {
 
     void Start()
     {
-
+        tectonic_uplift_map = new TectonicUplift(size, 2, 1);
+        graph = new ErosionGraph(tectonic_uplift_map, num_sampling_points, size, edge_filter_percent);
     }
 
     void Update()
     {
-        if (time_scale != old_time_scale)
+        if (time_scale > 0)
         {
-            old_time_scale = time_scale;
-
-            tectonic_uplift_map = new TectonicUplift(size, 2);
-            graph = new ErosionGraph(tectonic_uplift_map, num_sampling_points, size, edge_filter_percent);
+            graph.Erode((float) time_scale);
         }
-
-        //graph.Erode();
     }
 
     private void OnDrawGizmos()

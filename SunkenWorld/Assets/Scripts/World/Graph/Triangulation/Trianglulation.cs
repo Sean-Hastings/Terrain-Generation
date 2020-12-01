@@ -29,7 +29,11 @@ public class Trianglulation
         {
             if (!TriangleContains(tri, tris.GetVertices()))
             {
+                float area = tri.Area() / 3;
                 GraphNode[] vertices = tri.GetVertices();
+                vertices[0].Voronoi += area;
+                vertices[1].Voronoi += area;
+                vertices[2].Voronoi += area;
 
                 GraphEdge edge = vertices[0].AddEdgeFromNode(vertices[1]);
                 edges.Add(edge);
@@ -157,6 +161,8 @@ public class Trianglulation
         List<TriangleTree> new_tris = new List<TriangleTree>();
         new_tris.Add(new TriangleTree(new Triangle(separate_verts[0], separate_verts[1], shared_verts[0])));
         new_tris.Add(new TriangleTree(new Triangle(separate_verts[0], separate_verts[1], shared_verts[1])));
+
+        // TODO: Bugfix!! Sometimes, very rarely, shared_verts[1] doesn't exist????????
 
         tri.GetChildren().AddRange(new_tris);
         adj.GetChildren().AddRange(new_tris);

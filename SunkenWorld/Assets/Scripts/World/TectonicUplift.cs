@@ -4,13 +4,15 @@ public class TectonicUplift
 {
     private int size;
     private float scale;
+    private int seed;
     private FastNoise fn;
 
-    public TectonicUplift(int size, float scale)
+    public TectonicUplift(int size, float scale, int seed)
     {
+        this.seed = seed;
         this.size = size;
         this.scale = scale;
-        fn = new FastNoise();
+        fn = new FastNoise(seed);
     }
 
     public float get(float x, float y)

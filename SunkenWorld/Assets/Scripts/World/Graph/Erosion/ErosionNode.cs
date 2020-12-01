@@ -1,19 +1,26 @@
 ﻿using System.Collections.Generic;
+using System;
+using UnityEngine;
 
 public class ErosionNode : GraphNode
 {
     protected float height;
     protected float uplift;
     protected float drainage;
+    protected float k;
+    protected float m;
     protected List<ErosionNode> inflow;
     protected ErosionNode outflow;
     protected LakeNode lake;
 
-    public ErosionNode(float x, float y, float height, float uplift) : base(x, y)
+    public ErosionNode(float x, float y, float height, float uplift, float k, float m) : base(x, y)
     {
         this.height = height;
         this.uplift = uplift;
+        this.k = k;
+        this.m = m;
         inflow = new List<ErosionNode>();
+        drainage = 0;
     }
 
     public bool IsLeaf()
@@ -66,6 +73,81 @@ public class ErosionNode : GraphNode
         set
         {
             uplift = value;
+        }
+    }
+
+    public float Drainage
+    {
+        get
+        {
+            return drainage;
+        }
+
+        set
+        {
+            drainage = value;
+        }
+    }
+
+    public float Distance
+    {
+        get
+        {
+            if (outflow != null)
+            {
+                float xDist = (float) (x - outflow.X);
+                float yDist = (float) (y - outflow.Y);
+                return (float) Math.Sqrt(xDist * xDist + yDist * yDist);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        set{}
+    }
+
+    public float Slope
+    {
+        get
+        {
+            if (outflow != null)
+            {
+                return (height - outflow.Height) / Distance;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        set {}
+    }
+
+    public float K
+    {
+        get
+        {
+            return k;
+        }
+
+        set
+        {
+            k = value;
+        }
+    }
+
+    public float M
+    {
+        get
+        {
+            return m;
+        }
+
+        set
+        {
+            m = value;
         }
     }
 

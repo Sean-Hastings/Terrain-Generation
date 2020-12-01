@@ -5,6 +5,10 @@ public class GraphNode
 {
     protected float x;
     protected float y;
+    protected float voronoi;
+
+    protected bool exterior;
+    protected bool calcd_e;
 
     protected List<GraphEdge> edges;
 
@@ -14,7 +18,9 @@ public class GraphNode
     {
         this.x = x;
         this.y = y;
+        voronoi = 0;
         edges = new List<GraphEdge>();
+        calcd_e = false;
     }
 
     public GraphNode Nearest()
@@ -83,7 +89,18 @@ public class GraphNode
         return (List<GraphNode>) (from edge in edges select edge.GetOtherNode(this)).ToList();
     }
 
+
     public bool IsExterior()
+    {
+        if (!calcd_e)
+        {
+            exterior = CalcExterior();
+            calcd_e = true;
+        }
+        return exterior;
+    }
+
+    public bool CalcExterior()
     {
         foreach (GraphNode node in GetNeighbors())
         {
@@ -130,6 +147,19 @@ public class GraphNode
         set
         {
             x = value;
+        }
+    }
+
+    public float Voronoi
+    {
+        get
+        {
+            return voronoi;
+        }
+
+        set
+        {
+            voronoi = value;
         }
     }
 }

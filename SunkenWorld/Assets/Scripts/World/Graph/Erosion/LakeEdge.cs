@@ -3,27 +3,42 @@ using System;
 
 public class LakeEdge
 {
-    public List<ErosionNode> nodes;
+    protected HashSet<ErosionNode> nodes;
     protected ErosionNode receiver;
     protected float height;
 
     public LakeEdge(ErosionNode a, ErosionNode b)
     {
-        nodes = new List<ErosionNode>() {a, b};
+        nodes = new HashSet<ErosionNode>() {a, b};
         receiver = null;
         height = Math.Max(a.Height, b.Height);
     }
 
-    public ErosionNode Source()
+    public HashSet<ErosionNode> Nodes
     {
-        foreach (ErosionNode node in nodes)
+        get
         {
-            if (node != receiver)
-            {
-                return node;
-            }
+            return nodes;
         }
-        return null;
+
+        set {}
+    }
+
+    public ErosionNode Source
+    {
+        get
+        {
+            foreach (ErosionNode node in nodes)
+            {
+                if (node != receiver)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        set {}
     }
 
     public ErosionNode Receiver
